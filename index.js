@@ -202,8 +202,30 @@ server.get('/', (request, response) => {
 
 // PATCH /koders/:id
 
+// server.patch('/:idKoder', async (request, response) =>{
 
+//     const patchKoder = request.body;
+//     console.log(patchKoder);
 
+//     const id = parseInt(request.params.idKoder);
+//     const dataFile = await fs.promises.readFile('./kodemia.json','utf8');
+//     const json = JSON.parse(dataFile);
+    
+//     const koderFound = json.koders.find(koder => koder.id === id);
+
+//     koderFound.id = patchKoder.id
+//     koderFound.name = patchKoder.name
+//     koderFound.gender = patchKoder.gender
+//     koderFound.generation = patchKoder.generation
+
+//     await fs.promises.writeFile('./kodemia.json', JSON.stringify(json,null,2),'utf8');
+
+//     response.json({
+//         message: 'Aquí se actualiza Koders'
+//     })
+// });
+
+/* ----- */
 
 // QUERY PARAMS - ¿QUÉ SON?
 // https://kodemia.mx/koders?gender=m
