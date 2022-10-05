@@ -42,128 +42,198 @@ Endpoint -> punto final de la informacióin
 
 import express from 'express';
 
-import fs from 'fs'
+import kodersRouter from './routers/koders.router.js'
 
 const server = express() // creando nuestro server / la instancia de express
 
-// middleware - convertir lo que llega en body a un json
+// MIDDLEWARE - middleware -> convertir lo que llega en body a un json
 server.use(express.json())
 
-// GET /koders
-server.get('/', (request, response) => {
-    response.json({
-        message: 'Aquí estarán todos los koders :D'
-    })
+// ROUTERS
+server.use('/koders', kodersRouter);
 
-})
+// // GET /koders
+// server.get('/', (request, response) => {
+//     response.json({
+//         message: 'Aquí estarán todos los koders :D'
+//     })
 
-// POST /koders
-server.post('/', (request, response) => {
-    response.json({
-        message: 'Aquí estarán todos los koders'
-    })
+// })
 
-})
+// // POST /koders
+// server.post('/', (request, response) => {
+//     response.json({
+//         message: 'Aquí estarán todos los koders'
+//     })
 
-// PATCH /koders
-server.patch('/', (request, response) => {
-    response.json({
-        message: 'Aquí se crearán koders'
-    })
+// })
 
-})
+// // PATCH /koders
+// server.patch('/', (request, response) => {
+//     response.json({
+//         message: 'Aquí se crearán koders'
+//     })
 
-// DELETE /koders
-server.delete('/', (request, response) => {
-    response.json({
-        message: 'Aquí se eliminarán koders'
-    })
+// })
 
-})
+// // DELETE /koders
+// server.delete('/', (request, response) => {
+//     response.json({
+//         message: 'Aquí se eliminarán koders'
+//     })
+
+// })
 
 
-// GET /koders - regresar a todos los koders
-server.get('/koders', async (request, response) => {
-    const dataFile = await fs.promises.readFile('./kodemia.json', 'utf8')
-    const json = JSON.parse(dataFile)
-    const koders = json.koders
+// // GET /koders - regresar a todos los koders
+// // filtrar por generación
+// // filtrar por género (query param)
+// // filtrar por cantidad (count: los 2 primeros, 3 primeros, 5 primeros) HW!!!!! <---
+// server.get('/koders', async (request, response) => {
+//     const dataFile = await fs.promises.readFile('./kodemia.json', 'utf8')
+//     const json = JSON.parse(dataFile)
+//     let koders = json.koders
     
-    // Si se requiere regresar solo los nombres de los koders:
-    // const kodersName = koders.map(koer => ({name: koder.name}))
+//     // Si se requiere regresar solo los nombres de los koders:
+//     // const kodersName = koders.map(koer => ({name: koder.name}))
 
-    response.json({
-        success: true,
-        data: {
-            koders
-        }
-    })
-})
+//     // 1º) Accedo a los queries params directamente en el request
+//     const queries = request.query; // A través del 'request.query' obtengo todos los datos que mandamos obtenre
+//     console.log('queries: ', queries);
+
+//     // 2º) Destructuring
+//     const {generation, gender} = request.query;
+//     console.log('generation: ', generation);
+
+//     let kodersFiltered = json.koders;
+//     // 3º) Validar si se obtiene el query
+//     // string -> true
+//     // undefined -> false
+//     if(generation){
+//         kodersFiltered = kodersFiltered.filter(koder => koder.generation === parseInt(generation));
+//     }
+
+//     if(gender){
+//         kodersFiltered = kodersFiltered.filter(koder => koder.gender === gender);
+//     }
+
+//     response.json({
+//         success: true,
+//         data: {
+//             koders: kodersFiltered || json.koders
+//         }
+//     });
+// });
 
 
-// POST /koders - enviar información de un/una koder para crearl@
-server.post('/koders', async (request, response) => {
+// // POST /koders - enviar información de un/una koder para crearl@
+// server.post('/koders', async (request, response) => {
     
-    // request -> objeto que abstrae aquello que nos mandan
+//     // request -> objeto que abstrae aquello que nos mandan
     
-    // paquete http -> headers / body
-    // leer la data del nuevo koder del body
-    const newKoder = request.body
-    console.log(newKoder)
+//     // paquete http -> headers / body
+//     // leer la data del nuevo koder del body
+//     const newKoder = request.body;
+//     console.log(newKoder);
 
-    const dataFile = await fs.promises.readFile('./kodemia.json')
-    const json = JSON.parse(dataFile)
+//     const dataFile = await fs.promises.readFile('./kodemia.json', 'utf8');
+//     const json = JSON.parse(dataFile);
 
-    json.koders.push(newKoder)
+//     json.koders.push(newKoder);
 
-    await fs.promises.writeFile('./kodemia.json', JSON.stringify(json, null, 2), 'utf-8')
-
-
-    response.json({
-        success: true,
-        message: "Koder creado"
-    })
-})
+//     await fs.promises.writeFile('./kodemia.json', JSON.stringify(json, null, 2), 'utf-8');
 
 
-// GET /koders/2
-// GET /koders/3
-// GET /koders/4
+//     response.json({
+//         success: true,
+//         message: "Koder creado"
+//     });
+// });
 
 
-// Express permite recibir info adicional desde la ruta -> path parameters
-// :id -> variable, se identifica con los dos puntos seguido del nombre de la variable
-server.get('/koders/:idKoder', async (request, response) => {
-    console.log(request.params)
-    // console.log('param name: ', request.params.name)
-    // La info adicional que se recibe es en formato string
-    // params -> accede a todos los parámeros de la ruta
-    const id = parseInt(request.params.idKoder)
-    const dataFile = await fs.promises.readFile('./kodemia.json', 'utf8')
-    const json = JSON.parse(dataFile)
+// // GET /koders/2
+// // GET /koders/3
+// // GET /koders/4
 
-    const koderFound = json.koders.find(koder => koder.id === id)
-    if(!koderFound) {
-        response.status(404)
-        response.json({
-            success: false,
-            message: 'Koder no encontrado'
-        })
-        return
-    }
-    response.json({
-        success: true,
-        data: {
-            koder:koderFound
-        }
-    })
-})
 
+// // Express permite recibir info adicional desde la ruta -> path parameters
+// // :id -> variable, se identifica con los dos puntos seguido del nombre de la variable
+// server.get('/koders/:idKoder', async (request, response) => {
+//     console.log(request.params);
+//     // console.log('param name: ', request.params.name)
+//     // La info adicional que se recibe es en formato string
+//     // params -> accede a todos los parámeros de la ruta
+//     const id = parseInt(request.params.idKoder);
+//     const dataFile = await fs.promises.readFile('./kodemia.json', 'utf8');
+//     const json = JSON.parse(dataFile);
+
+//     const koderFound = json.koders.find(koder => koder.id === id);
+//     if(!koderFound) {
+//         response.status(404)
+//         response.json({
+//             success: false,
+//             message: 'Koder no encontrado'
+//         })
+//         return
+//     }
+//     response.json({
+//         success: true,
+//         data: {
+//             koder:koderFound
+//         }
+//     })
+// })
+
+
+// // DELETE /KODERS/:id
+// // path parameters
+// server.delete('/koders/:idKoder', async (request, response) => { // Declarar endpoint
+//     /*
+//     Análisis del requerimiento:
+//         0. ¿De dónde se quiere eliminar el Koder? -> Archivo -> Leer el archivo fs.promise.readFile()
+//         1. ¿Qué Koder se quiere eliminar? Obtenemos de la URL
+//         2. ¿Cuál es el id del Koder a eliminar? request.params.id
+//         3. Buscar al Koder en la lista y eliminarlo -> .filter() .splice()
+//         4. Actualizar el archivo sin el Koder -> fs.promise.writeFile()
+//         5. Responder
+//     */
+
+//    const dataFile = await fs.promises.readFile('kodemia.json', 'utf8');
+//    const json = JSON.parse(dataFile);
+
+//    // {idKoder} -> Destructuring assingment -> 
+//    const { idKoder } = request.params;
+//    // const id = request.params.idKoder
+   
+//    const newKoders = json.koders.filter(koder => koder.id !== parseInt(idKoder));
+//    json.koders = newKoders; // reemplazar con los nuevos Koders
+   
+//    await fs.promises.writeFile('kodemia.json', JSON.stringify(json, null, 2), 'utf8');
+
+//     response.json({
+//         success: true,
+//         message: 'Koder eliminado!!'
+//     })
+// });
+
+
+// PATCH /koders/:id
+
+
+
+
+// QUERY PARAMS - ¿QUÉ SON?
+// https://kodemia.mx/koders?gender=m
+// Se utiliza para filtrar información extra para el REQUEST
+// Hacer que un edpoint sea más 'inteligente'
+// requests.query -> acceder
+    // requests.query.gender
+
+
+// fetch()
 
 // Poner a escuchar nuestro server
 server.listen(8080, () => {
     console.log('Server listening on port 8080')
 })
-
-
-
 
