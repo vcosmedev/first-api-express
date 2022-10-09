@@ -200,7 +200,7 @@ server.get('/', (request, response) => {
 // });
 
 
-// PATCH /koders/:id
+// PATCH /koders/:id - request method applies partial modifications to a resource.
 
 // server.patch('/:idKoder', async (request, response) =>{
 
