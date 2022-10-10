@@ -1,17 +1,17 @@
-// Si no se está agregando la propiedad "type": "module" en el package json, se utiliza require
+// Si no se está agregando la propiedad <"type": "module"> en el package.json, se utiliza 'require'
 // require()
 
 // import __ from ''; modules
-// add '"type": modules; to package.json archive to import from / export to
+// Add '"type": "modules"' to package.json archive to import from / export to
 
 import express from 'express';
 
-import kodersRouter from './routers/koders.router.js'
+import kodersRouter from './routers/koders.router.js';
 
-const server = express() // creando nuestro server / la instancia de express
+const server = express(); // Creando server / la instancia de express
 
-// MIDDLEWARE - middleware -> convertir lo que llega en body a un json
-server.use(express.json())
+// MIDDLEWARE --> Middleware -> convertir lo que llega en body a un json
+server.use(express.json());
 
 // ROUTERS
 server.use('/koders', kodersRouter);
@@ -298,4 +298,5 @@ Endpoint -> punto final de la informacióin
 // Poner a escuchar nuestro server
 server.listen(8080, () => {
     console.log('Server listening on port 8080')
-})
+});
+
