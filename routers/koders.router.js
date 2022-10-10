@@ -4,7 +4,7 @@
 import express from 'express';
 import fs from 'fs';
 
-const router = express.Router(); // Crear un router / router: instancia o subinstancia del servidor -> Se le pueden aplicar las mismas rutas que al server
+const router = express.Router(); // Crear un router / router: instancia o subinstancia del servidor -> Se le pueden aplicar las mismas rutas que al server.
 
 router.get('/', async (request, response) => {
     const dataFile = await fs.promises.readFile('./kodemia.json', 'utf8');
@@ -15,15 +15,15 @@ router.get('/', async (request, response) => {
     // const kodersName = koders.map(koder => ({name: koder.name}));
 
     // 1º) Acceder a los 'queries params' directamente en el request:
-    const queries = request.query; // A través del 'request.query' se obtienen todos los datos que se mandan obtener
+    const queries = request.query; // A través del 'request.query' se obtienen todos los datos que se mandan obtener.
     console.log('queries: ', queries);
 
-    // 2º) Destructuring
+    // 2º) Destructuring:
     const {generation, gender} = request.query;
     console.log('generation: ', generation);
 
     let kodersFiltered = json.koders;
-    // 3º) Validar si se obtiene el query
+    // 3º) Validar si se obtiene el query.:
     // string -> true
     // undefined -> false
     if(generation){
