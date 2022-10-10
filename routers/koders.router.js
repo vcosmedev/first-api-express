@@ -1,10 +1,10 @@
-// ROUTER -> Definición de router -> subconjunto del server principal que permite modularizar los routers o endpoints que se tengan.
-// Enfoque de aplicación -> agruparlos semánticamente (endpoint para 'koders', otro para 'mentores', otro para 'clases').
+// ROUTER -> Definición -> Subconjunto del server principal que permite modularizar los routers o endpoints que se tengan.
+// Enfoque de aplicación -> Agrupar endpoints semánticamente (endpoint para 'koders', para 'mentores', para 'clases').
 
 import express from 'express';
 import fs from 'fs';
 
-const router = express.Router(); // Crear un router -> router: instancia o subinstancia del servidor -> se le pueden aplicar las mismas rutas que al server
+const router = express.Router(); // Crear un router / router: instancia o subinstancia del servidor -> Se le pueden aplicar las mismas rutas que al server
 
 router.get('/', async (request, response) => {
     const dataFile = await fs.promises.readFile('./kodemia.json', 'utf8');
@@ -12,10 +12,10 @@ router.get('/', async (request, response) => {
     let koders = json.koders;
 
     // Si se requiere regresar solo los nombres de los koders:
-    // const kodersName = koders.map(koer => ({name: koder.name}))
+    // const kodersName = koders.map(koder => ({name: koder.name}));
 
-    // 1º) Accedo a los queries params directamente en el request
-    const queries = request.query; // A través del 'request.query' obtengo todos los datos que mandamos obtenre
+    // 1º) Acceder a los 'queries params' directamente en el request:
+    const queries = request.query; // A través del 'request.query' se obtienen todos los datos que se mandan obtener
     console.log('queries: ', queries);
 
     // 2º) Destructuring
@@ -68,12 +68,12 @@ router.post('/', async (request, response) => {
 
 
 // GET
-// Express permite recibir info adicional desde la ruta -> path parameters
+// Express permite recibir información adicional desde la ruta -> path parameters
 // :id -> variable, se identifica con los dos puntos seguido del nombre de la variable
 router.get('/:idKoder', async (request, response) => {
     console.log(request.params);
-    // console.log('param name: ', request.params.name)
-    // La info adicional que se recibe es en formato string
+    // console.log('param name: ', request.params.name);
+    // La información adicional que se recibe es en formato string
     // params -> accede a todos los parámeros de la ruta
     const id = parseInt(request.params.idKoder);
     const dataFile = await fs.promises.readFile('./kodemia.json', 'utf8');
@@ -124,7 +124,7 @@ router.delete('/:idKoder', async (request, response) => { // Declarar endpoint
     response.json({
         success: true,
         message: 'Koder eliminado!!'
-    })
+    });
 });
 
 
@@ -155,5 +155,5 @@ router.patch('/:idKoder', async (request, response) =>{
 });
 
 
-export default router; // Exporto router para que pueda utilizarlo en otro archivo
+export default router; // Exportar router para que pueda se utilizado en otro archivo
 
