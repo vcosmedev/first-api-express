@@ -13,9 +13,10 @@ const person = {
 // const github = person.github
 
 // Destructuring
-// Qué propiedades quiero = de qué objeto las voy obtener?
-// La sintaxis de desestructuración -> Expresion de JS que permite desempacar valores 
-// de arreglos o propiedades de objetos en distintas variables.
+// Destructuring makes it' possible to unpack values from arrays, or properties from objects, into distinct variables.
+// ¿'Qué propiedades que se requieren'? = '¿De qué objeto se van a obtener dichas propiedades?'
+// La sintaxis de desestructuración -> Expresión de JS que permite desempacar valores 
+   // de arreglos o propiedades de objetos en distintas variables.
 
 const { name: firstName, github, address: { number } } = person;
 
